@@ -1,0 +1,32 @@
+events:
+  enabled: true
+
+spring:
+  cloud:
+    function:
+      definition: cpuEventPrinter; memoryEventPrinter
+    stream:
+      local_rabbit:
+        type: rabbit
+        environment:
+          spring:
+            rabbitmq:
+              publisher-returns: true
+              host: localhost
+              port: 5672
+              username: guest
+              password: guest
+              virtual-host: /
+#        cpuEvenPrinter-in-0:
+#          consumer:
+#            enableDlq: true
+#            dlqName: cpu-event-dlq-v1
+      bindings:
+        cpuEventPrinter-in-0:
+          destination: cpu-event-v1
+          group: cpu-event
+        memoryEventPrinter-in-0:
+          destination: memory-v1
+          group: memory-event
+
+

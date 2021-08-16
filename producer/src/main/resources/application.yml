@@ -1,0 +1,32 @@
+events:
+  enabled: true
+
+spring:
+  cloud:
+    function:
+      defintion: cpuEventCombiner;
+    stream:
+      local_rabbit:
+        type: rabbit
+        environment:
+          spring:
+            rabbitmq:
+              publisher-returns: true
+              host: localhost
+              port: 5672
+              username: guest
+              password: guest
+              virtual-host: /
+#        cpuEvenCombiner-in-0:
+#          consumer:
+#            enableDlq: true
+#            dlqName: cpuLoad-dlq-v1
+      bindings:
+        cpuEventCombiner-in-0:
+          destination: cpu-load-v1
+          group: event
+        cpuEventCombiner-out-0:
+          destination: cpu-event-v1
+
+
+
